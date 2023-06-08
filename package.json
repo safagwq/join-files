@@ -1,6 +1,6 @@
 {
   "name": "join-files",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "join File|Blob|string|Object into a single file, and restore it at any time",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/safagwq/merge-files.git"
+    "url": "git+https://github.com/safagwq/join-files.git"
   },
   "keywords": [
     "Merge Files",
@@ -22,9 +22,9 @@
   "author": "safa9999",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/safagwq/merge-files/issues"
+    "url": "https://github.com/safagwq/join-files/issues"
   },
-  "homepage": "https://github.com/safagwq/merge-files#readme",
+  "homepage": "https://github.com/safagwq/join-files#readme",
   "dependencies": {
     "typescript": "^5.1.3"
   }
