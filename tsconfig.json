@@ -1,10 +1,10 @@
 {
     "compilerOptions": {
+        "strict": true,
         "lib": ["ES6","DOM"],
         "target": "ES2015",
         "declaration": true,
         "module": "commonjs",
-        "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap": true

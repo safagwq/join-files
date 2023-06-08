@@ -20,16 +20,12 @@ export async function parseMataData(joinedFile:Blob){
     }
 }
 
-export async function splitFiles( joinedFile:Blob , filename:string|string[] = null ) : Promise<FileItem[]> {
+export async function splitFiles( joinedFile:Blob , filename:string|string[] = '' ) : Promise<FileItem[]> {
     let targetFilenames : string[]
 
     if( !filename ){
-        targetFilenames = null
-    }
-    else{
         targetFilenames = Array.isArray(filename) ? filename : [filename]
     }
-
     try {
         const mateDataLength = new Uint32Array( await joinedFile.slice(0,4).arrayBuffer() )
         const metaJson = await parseMataData(joinedFile)
@@ -63,9 +59,8 @@ export async function splitFiles( joinedFile:Blob , filename:string|string[] = n
 
                 return { name : name, data : stringData }            
             })
-            .filter(fileItem=>fileItem)
         )
-        return files
+        return files.filter(fileItem=>fileItem) as FileItem[]
     }
     catch (error) {
         console.error("unpack fail !")
