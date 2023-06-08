@@ -2,11 +2,26 @@
 join File|Blob|string|Object into a single file, and restore it at any time
 
 ```typescript
+
+import { joinFiles , splitFiles , FileItem } from 'join-files'
+
 const input = document.createElement('input')
 input.type = 'file'
 input.multiple = true
 input.onchange = async ()=>{
-    const files = Array.from(input.files)
+    const files: FileItem[] = Array.from(input.files)
+
+    files.push({
+        name : 'some text',
+        data : "123123",
+    })
+    files.push({
+        name : 'some object data',
+        data : {
+            name : 'safa',
+            age : 9999
+        },
+    })
     console.log( files )
 
     const result = await joinFiles(files)
