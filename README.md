@@ -1,5 +1,5 @@
-# merge-files
-Merge File|Blob|string|Object into a single file, and restore it at any time
+# join-files
+join File|Blob|string|Object into a single file, and restore it at any time
 
 ```typescript
 const input = document.createElement('input')

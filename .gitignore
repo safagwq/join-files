@@ -1,0 +1,16 @@
+node_modules
+
+index.d.ts
+index.js
+index.js.map
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
