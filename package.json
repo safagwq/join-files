@@ -1,6 +1,6 @@
 {
   "name": "join-files",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "join File|Blob|string|Object into a single file, and restore it at any time",
   "main": "index.js",
   "scripts": {
