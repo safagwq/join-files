@@ -23,7 +23,7 @@ export async function parseMataData(joinedFile:Blob){
 export async function splitFiles( joinedFile:Blob , filename:string|string[] = '' ) : Promise<FileItem[]> {
     let targetFilenames : string[]
 
-    if( !filename ){
+    if( filename ){
         targetFilenames = Array.isArray(filename) ? filename : [filename]
     }
     try {
