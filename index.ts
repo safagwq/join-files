@@ -7,20 +7,45 @@ interface FileMetaData{
 
 export type FileItem = File | {name:string , data:Blob|string|Object }
 
-export async function splitFiles( joinedFile:Blob ) : Promise<FileItem[]> {
-    const mateDataLength = new Uint32Array( await joinedFile.slice(0,4).arrayBuffer() )
-    const metaData = new Uint8Array( await joinedFile.slice(4,4 + mateDataLength[0]).arrayBuffer() )
+export async function parseMataData(joinedFile:Blob){
+    try {
+        const mateDataLength = new Uint32Array( await joinedFile.slice(0,4).arrayBuffer() )
+        const metaData = new Uint8Array( await joinedFile.slice(4,4 + mateDataLength[0]).arrayBuffer() )    
+        const metaJson = JSON.parse( uint8ArrayToString( metaData ) ) as FileMetaData[]
+        return metaJson
+    }
+    catch (error) {
+        console.error("parse fail !")
+        throw error
+    }
+}
+
+export async function splitFiles( joinedFile:Blob , filename:string|string[] = null ) : Promise<FileItem[]> {
+    let targetFilenames : string[]
+
+    if( !filename ){
+        targetFilenames = null
+    }
+    else{
+        targetFilenames = Array.isArray(filename) ? filename : [filename]
+    }
 
     try {
-        const metaJson = JSON.parse( uint8ArrayToString( metaData ) ) as FileMetaData[]
+        const mateDataLength = new Uint32Array( await joinedFile.slice(0,4).arrayBuffer() )
+        const metaJson = await parseMataData(joinedFile)
         let dataStart = 4 + mateDataLength[0]
 
         const files = await Promise.all(
             metaJson.map(async ({ name , size , type , mimeType })=>{
                 const start = dataStart
                 const end = dataStart + size
-                const data = joinedFile.slice(start,end)
                 dataStart = end
+
+                if( targetFilenames?.indexOf(name) == -1 ){
+                    return null
+                }
+
+                const data = joinedFile.slice(start,end)
 
                 if( type == 'file' ){
                     return new File( [data] , name , mimeType ? { type : mimeType } : {} )
@@ -38,6 +63,7 @@ export async function splitFiles( joinedFile:Blob ) : Promise<FileItem[]> {
 
                 return { name : name, data : stringData }            
             })
+            .filter(fileItem=>fileItem)
         )
         return files
     }
