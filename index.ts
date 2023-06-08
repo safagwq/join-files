@@ -87,16 +87,14 @@ export async function joinFiles(files: FileItem[] , filename = Date.now() + '.da
 
         let file_uint8 : Uint8Array
 
-        if( item instanceof Blob ){
-            if( item instanceof File ){
-                fileMetaData.type = 'file'
-                fileMetaData.mimeType = item.type
-            }
-            else{
-                fileMetaData.type = 'blob'
-            }
-            
+        if( item instanceof File){
+            fileMetaData.type = 'file'
+            fileMetaData.mimeType = item.type
             file_uint8 = new Uint8Array( await item.arrayBuffer() )
+        }
+        else if( item.data instanceof Blob){
+            fileMetaData.type = 'blob'
+            file_uint8 = new Uint8Array( await item.data.arrayBuffer() )
         }
         else if( typeof item.data == 'string' ){
             fileMetaData.type = 'string'
